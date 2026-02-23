@@ -1,0 +1,14 @@
+{
+  "name": "tamp-blueprint",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "@ton/blueprint": "^0.43.0",
+    "@ton/core": "^0.63.1",
+    "@ton/ton": "^15.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "typescript": "^5.7.3"
+  }
+}

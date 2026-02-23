@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tamp.ton/manifest.schema.json",
+  "title": "TAMP Agent Card",
+  "type": "object",
+  "required": [
+    "protocol_version",
+    "name",
+    "description",
+    "homepage",
+    "verification_ref",
+    "contact",
+    "mcp_endpoint",
+    "mcp_tools",
+    "capabilities",
+    "security"
+  ],
+  "properties": {
+    "protocol_version": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "homepage": { "type": "string", "minLength": 1 },
+    "verification_ref": { "type": "string", "minLength": 1 },
+    "contact": {
+      "type": "object",
+      "required": ["tg_bot"],
+      "properties": {
+        "tg_bot": { "type": "string" },
+        "mcp_endpoint": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "mcp_endpoint": { "type": "string", "minLength": 1 },
+    "mcp_tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "input_schema": { "type": "object" },
+          "output_schema": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["skill", "description", "inputs", "pricing"],
+        "properties": {
+          "skill": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "inputs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "pricing": {
+            "type": "object",
+            "required": ["amount", "unit", "type"],
+            "properties": {
+              "amount": { "type": "string" },
+              "unit": { "type": "string" },
+              "type": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "security": {
+      "type": "object",
+      "required": ["hitl_required", "veritas_verified"],
+      "properties": {
+        "hitl_required": { "type": "boolean" },
+        "veritas_verified": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

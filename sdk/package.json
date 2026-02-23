@@ -1,0 +1,22 @@
+{
+  "name": "tamp-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TAMP (TON Agent Manifest Protocol) SDK + discovery CLI",
+  "scripts": {
+    "discover": "tsx index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@ton/core": "^0.63.1",
+    "@ton/ton": "^15.4.0",
+    "ajv": "^8.17.1",
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

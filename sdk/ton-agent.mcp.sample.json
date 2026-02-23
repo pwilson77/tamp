@@ -1,0 +1,53 @@
+{
+  "protocol_version": "1.0.0",
+  "name": "TON Whale Hunter",
+  "description": "Analyzes real-time whale movements and Gift asset behavior.",
+  "homepage": "https://whale-hunter-agent.ton",
+
+  "verification_ref": "https://identityhub.example/u/tsivarev",
+
+  "contact": {
+    "tg_bot": "@WhaleHunterBot"
+  },
+
+  "mcp_endpoint": "https://api.whale-hunter.io/mcp",
+  "mcp_tools": [
+    {
+      "name": "on_chain_analysis",
+      "description": "Query on-chain activity for a TON address",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "address": { "type": "string" },
+          "timeframe": { "type": "string" }
+        },
+        "required": ["address"]
+      }
+    },
+    {
+      "name": "gift_tracker",
+      "description": "Track high-value Fragment Gifts for a collection",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "collection_id": { "type": "string" }
+        },
+        "required": ["collection_id"]
+      }
+    }
+  ],
+
+  "capabilities": [
+    {
+      "skill": "on-chain-analysis",
+      "description": "SQL-based Dune research for TON addresses",
+      "inputs": ["address", "timeframe"],
+      "pricing": { "amount": "0.1", "unit": "TON", "type": "per_query" }
+    }
+  ],
+
+  "security": {
+    "hitl_required": true,
+    "veritas_verified": false
+  }
+}

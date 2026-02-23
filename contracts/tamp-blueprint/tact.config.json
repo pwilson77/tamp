@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tact-lang/tact/main/src/config/configSchema.json",
+  "projects": [
+    {
+      "name": "TampRegistry",
+      "path": "contracts/TampRegistry.tact",
+      "output": "build/TampRegistry",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "AgentEntry",
+      "path": "contracts/AgentEntry.tact",
+      "output": "build/AgentEntry",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    }
+  ]
+}

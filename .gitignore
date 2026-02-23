@@ -1,0 +1,39 @@
+# Dependencies
+**/node_modules/
+
+# Build outputs
+**/dist/
+**/.tsbuildinfo
+
+# Tact/Blueprint generated outputs (reproducible)
+contracts/tamp-blueprint/build/
+contracts/tamp-blueprint/temp/
+contracts/tamp-blueprint/.tonconnect/
+contracts/tamp-blueprint/**/tonconnect.json
+
+# Local env / secrets
+**/.env
+**/.env.*
+
+# Logs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.vscode/
+.idea/
+
+# Test / cache
+**/.cache/
+**/.pytest_cache/
+**/__pycache__/
+
+# Pack artifacts
+**/*.tgz
+
+# Misc
+**/coverage/
