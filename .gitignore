@@ -37,3 +37,10 @@ pnpm-debug.log*
 
 # Misc
 **/coverage/
+
+# Local demo outputs (keep untracked)
+sdk/demo/*.txt
+sdk/demo/*transcript*
+# But DO track demo source code
+!sdk/demo/*.ts
+!sdk/demo/*.sh

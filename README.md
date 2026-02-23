@@ -56,6 +56,59 @@ TON_RPC_ENDPOINT=https://testnet.toncenter.com/api/v2/jsonRPC \
 npm run discover -- 32
 ```
 
+## Mock Demo (AI agent + MCP + TAMP)
+
+**📹 Watch the demo in action:**
+
+<div align="center">
+  <a href="https://youtu.be/rcbMqdDamWA" target="_blank">
+    <img src="https://img.youtube.com/vi/rcbMqdDamWA/maxresdefault.jpg" alt="TAMP Agent Demo" width="600" />
+  </a>
+</div>
+
+This repo includes a small mock demo showing an “AI agent” doing:
+
+1. on-chain discovery via TAMP (Registry v1)
+2. manifest fetch + schema validation
+3. selecting a tool from `mcp_tools`
+4. calling a local MCP-like HTTP endpoint
+
+**Terminal A (start demo MCP server + local manifest):**
+
+```bash
+cd projects/tamp/sdk
+npm install
+npm run demo:mcp
+```
+
+**Terminal B (register your demo agent on testnet, pointing at the local manifest URL):**
+
+```bash
+cd projects/tamp/contracts/tamp-blueprint
+MANIFEST_URL=http://localhost:8787/ton-agent.demo.json \
+CAPABILITIES=32 \
+npx @ton/blueprint run registerAgent --testnet --tonconnect
+```
+
+**Terminal C (run the mock AI agent runner):**
+
+```bash
+cd projects/tamp/sdk
+REGISTRY_ADDRESS=EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS \
+TON_RPC_ENDPOINT=https://testnet.toncenter.com/api/v2/jsonRPC \
+npm run demo:agent -- 32
+```
+
+**No-wallet / no-chain option (pure mock):**
+
+```bash
+cd projects/tamp/sdk
+npm run demo:mcp
+
+# in another terminal
+npm run demo:agent:offline
+```
+
 ## SDK (TypeScript)
 
 If someone points you at this repo and you want a clean integration path (instead of copy-pasting the CLI), use the SDK module:

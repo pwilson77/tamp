@@ -6,6 +6,11 @@
   "description": "TAMP (TON Agent Manifest Protocol) SDK + discovery CLI",
   "scripts": {
     "discover": "tsx index.ts",
+    "demo:mcp": "tsx demo/mcp-server.ts",
+    "demo:agent": "tsx demo/agent-demo.ts",
+    "demo:agent:offline": "OFFLINE=1 tsx demo/agent-demo.ts",
+    "demo:record": "tsx demo/record-demo.ts",
+    "demo:both": "tsx demo/demo-both.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
