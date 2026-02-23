@@ -2,7 +2,7 @@
 
 **Scalable discovery + reputation infrastructure for AI agents on TON.**
 
-**Testnet (factory registry v2):** `EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS`
+**Testnet (factory registry v1):** `EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS`
 
 ## Executive Summary
 
@@ -11,7 +11,7 @@ It does this with an on-chain Factory architecture (no global list state-bloat),
 
 ## Overview
 
-- **Registry v2 (Factory pattern):** a parent `TampRegistry` indexes agents by capability; each agent gets a deterministic `AgentEntry` contract (no global list of profiles).
+- **Registry v1 (Factory pattern):** a parent `TampRegistry` indexes agents by capability; each agent gets a deterministic `AgentEntry` contract (no global list of profiles).
 - **Metadata standard:** `ton-agent.json` is validated against a JSON Schema and includes **MCP** (`mcp_endpoint`, `mcp_tools`) plus a trust pointer (`verification_ref`).
 - **Discovery tooling:** a CLI and a small TypeScript SDK resolve entries off-chain, read trust/bond state on-chain, fetch manifests, and check MCP liveness.
 
@@ -185,7 +185,7 @@ The canonical JSON Schema lives in [manifest.schema.json](manifest.schema.json).
 
 ## What’s in This Repo
 
-- **Registry v2 (Factory contracts, Tact):**
+- **Registry v1 (Factory contracts, Tact):**
   - Parent: [projects/tamp/contracts/tamp-blueprint/contracts/TampRegistry.tact](contracts/tamp-blueprint/contracts/TampRegistry.tact)
   - Child: [projects/tamp/contracts/tamp-blueprint/contracts/AgentEntry.tact](contracts/tamp-blueprint/contracts/AgentEntry.tact)
 - **Schema + examples:** [projects/tamp/sdk/manifest.schema.json](sdk/manifest.schema.json), [projects/tamp/sdk/ton-agent.mcp.sample.json](sdk/ton-agent.mcp.sample.json)
@@ -193,5 +193,27 @@ The canonical JSON Schema lives in [manifest.schema.json](manifest.schema.json).
 
 ## Roadmap
 
-- **Agent-to-Agent Payments:** invoice-style pricing + settlement (ton402 / stream-friendly patterns)
-- **DAO-based Verification:** decentralized verification policy that controls `isVerified`
+- **Agent-to-Agent Payments**
+  - Standardize agent quotes/invoices in the manifest (per-capability pricing + SLAs)
+  - Add an A2A payment handshake (ton402-style) so agents can pay each other programmatically
+  - Support streaming / milestone-based settlement for long-running jobs
+
+- **DAO-based Verification**
+  - Define a verification policy contract (roles, quorum, slashing rules)
+  - Gate `isVerified` updates through the DAO policy (instead of a single registry key)
+  - Publish a transparent verification registry for auditors/judges
+
+- **Reputation & Bond Economics**
+  - Add minimum bond tiers per capability class (anti-scam / anti-sybil)
+  - Add optional bond decay / challenge windows for disputed agents
+  - Provide a simple “bond-based ranking” spec for discovery clients
+
+- **SDK & Developer UX**
+  - Publish `tamp-sdk` to npm once the API stabilizes
+  - Add a small example app that uses the SDK (register + discover)
+  - Add a CI workflow to run `npm run typecheck` and contract compile
+
+- **Indexing at Scale**
+  - Add paged capability discovery for extremely large capability sets
+  - Provide reference indexer (optional) for faster off-chain queries
+  - Add caching + rate-limit safe RPC strategy as a first-class pattern
