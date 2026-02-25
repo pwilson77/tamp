@@ -9,6 +9,8 @@
     "demo:mcp": "tsx demo/mcp-server.ts",
     "demo:agent": "tsx demo/agent-demo.ts",
     "demo:agent:offline": "OFFLINE=1 tsx demo/agent-demo.ts",
+    "demo:register:mock": "tsx demo/register-mock-agents.ts",
+    "demo:register:mock:tonconnect": "tsx demo/register-mock-agents.ts --tonconnect",
     "demo:record": "tsx demo/record-demo.ts",
     "demo:both": "tsx demo/demo-both.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"

@@ -7,7 +7,7 @@ const manifest = {
   protocol_version: "1.0.0",
   name: "TAMP Demo Agent",
   description:
-    "Mock MCP agent used for demonstrating TAMP discovery + tool calling.",
+    "Demo MCP agent used for TAMP discovery + tool-calling walkthroughs.",
   homepage: "https://example.invalid/tamp-demo",
   verification_ref: "demo://unverified",
   contact: {
@@ -18,7 +18,7 @@ const manifest = {
   mcp_tools: [
     {
       name: "trader_quote",
-      description: "Return a mock trade quote (demo only).",
+      description: "Return a demo trade quote.",
       input_schema: {
         type: "object",
         properties: {
@@ -52,7 +52,7 @@ const manifest = {
     },
     {
       name: "trader_execute",
-      description: "Execute a trade based on a validated quote (demo only).",
+      description: "Execute a demo trade based on a validated quote.",
       input_schema: {
         type: "object",
         properties: {
@@ -86,7 +86,7 @@ const manifest = {
     },
     {
       name: "security_risk_check",
-      description: "Return a mock security risk assessment (demo only).",
+      description: "Return a demo security risk assessment.",
       input_schema: {
         type: "object",
         properties: {
@@ -117,7 +117,7 @@ const manifest = {
     },
     {
       name: "security_deep_review",
-      description: "Return a detailed security review of a wallet (demo only).",
+      description: "Return a detailed demo security review of a wallet.",
       input_schema: {
         type: "object",
         properties: {
@@ -150,13 +150,13 @@ const manifest = {
   capabilities: [
     {
       skill: "trader",
-      description: "Mock trading capability used for demos.",
+      description: "Trading capability used in the demo.",
       inputs: ["pair", "side", "size"],
       pricing: { amount: "0.02", unit: "TON", type: "per_call" },
     },
     {
       skill: "security",
-      description: "Mock security capability used for demos.",
+      description: "Security capability used in the demo.",
       inputs: ["wallet"],
       pricing: { amount: "0.03", unit: "TON", type: "per_call" },
     },
@@ -165,6 +165,22 @@ const manifest = {
     hitl_required: false,
     veritas_verified: false,
   },
+} as const;
+
+const traderManifest = {
+  ...manifest,
+  name: "TAMP Trader Demo Agent",
+  description: "Trader agent manifest for TAMP registration demos.",
+  mcp_tools: manifest.mcp_tools.filter((t) => t.name.startsWith("trader_")),
+  capabilities: manifest.capabilities.filter((c) => c.skill === "trader"),
+} as const;
+
+const securityManifest = {
+  ...manifest,
+  name: "TAMP Security Demo Agent",
+  description: "Security agent manifest for TAMP registration demos.",
+  mcp_tools: manifest.mcp_tools.filter((t) => t.name.startsWith("security_")),
+  capabilities: manifest.capabilities.filter((c) => c.skill === "security"),
 } as const;
 
 function sendJson(res: http.ServerResponse, status: number, body: unknown) {
@@ -194,12 +210,24 @@ const server = http.createServer(async (req, res) => {
       ok: true,
       service: "tamp-demo-mcp",
       manifest: `http://localhost:${port}/ton-agent.demo.json`,
+      manifests: {
+        trader: `http://localhost:${port}/ton-agent.trader.json`,
+        security: `http://localhost:${port}/ton-agent.security.json`,
+      },
       mcp_endpoint: `http://localhost:${port}/mcp`,
     });
   }
 
   if (req.method === "GET" && u.pathname === "/ton-agent.demo.json") {
     return sendJson(res, 200, manifest);
+  }
+
+  if (req.method === "GET" && u.pathname === "/ton-agent.trader.json") {
+    return sendJson(res, 200, traderManifest);
+  }
+
+  if (req.method === "GET" && u.pathname === "/ton-agent.security.json") {
+    return sendJson(res, 200, securityManifest);
   }
 
   if (req.method === "GET" && u.pathname === "/mcp") {
@@ -236,7 +264,7 @@ const server = http.createServer(async (req, res) => {
               feeTon: "0.02",
               expiresInSeconds: 30,
             },
-            notes: `mock trader_quote pair=${pair} side=${side} size=${size} slippageBps=${slippageBps}`,
+            notes: `demo trader_quote pair=${pair} side=${side} size=${size} slippageBps=${slippageBps}`,
           },
         });
       }
@@ -262,7 +290,7 @@ const server = http.createServer(async (req, res) => {
               amountOut,
               feePaid: "0.015",
             },
-            notes: `mock trader_execute pair=${pair} side=${side} size=${size} slippageBps=${slippageBps}`,
+            notes: `demo trader_execute pair=${pair} side=${side} size=${size} slippageBps=${slippageBps}`,
           },
         });
       }
@@ -290,7 +318,7 @@ const server = http.createServer(async (req, res) => {
               score,
               flags,
             },
-            notes: `mock security_risk_check for wallet=${wallet}`,
+            notes: `demo security_risk_check for wallet=${wallet}`,
           },
         });
       }
@@ -339,7 +367,7 @@ const server = http.createServer(async (req, res) => {
               verdict,
               recommendations,
             },
-            notes: `mock security_deep_review for wallet=${wallet} includeHistory=${includeHistory}`,
+            notes: `demo security_deep_review for wallet=${wallet} includeHistory=${includeHistory}`,
           },
         });
       }
@@ -366,4 +394,12 @@ server.listen(port, "0.0.0.0", () => {
   console.log(`TAMP demo MCP server listening on http://localhost:${port}`);
   // eslint-disable-next-line no-console
   console.log(`Manifest: http://localhost:${port}/ton-agent.demo.json`);
+  // eslint-disable-next-line no-console
+  console.log(
+    `Trader manifest: http://localhost:${port}/ton-agent.trader.json`,
+  );
+  // eslint-disable-next-line no-console
+  console.log(
+    `Security manifest: http://localhost:${port}/ton-agent.security.json`,
+  );
 });

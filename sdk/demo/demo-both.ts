@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import process from "node:process";
 import axios from "axios";
+import { CAPABILITIES } from "../src/capabilities";
 
 const MCPPort = 8787;
 const MCPUrl = `http://localhost:${MCPPort}/mcp`;
@@ -26,9 +27,23 @@ function runDemo(persona: "trader" | "security"): {
   stderr: string;
   exitCode: number;
 } {
-  const result = spawnSync("npm", ["run", "demo:agent:offline"], {
+  const capability =
+    persona === "trader"
+      ? CAPABILITIES.trader.toString()
+      : CAPABILITIES.security.toString();
+
+  const result = spawnSync("npm", ["run", "demo:agent", "--", capability], {
     cwd: process.cwd(),
-    env: { ...process.env, PERSONA: persona, OFFLINE: "1" },
+    env: {
+      ...process.env,
+      PERSONA: persona,
+      REGISTRY_ADDRESS:
+        process.env.REGISTRY_ADDRESS ??
+        "EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS",
+      TON_RPC_ENDPOINT:
+        process.env.TON_RPC_ENDPOINT ??
+        "https://testnet.toncenter.com/api/v2/jsonRPC",
+    },
     encoding: "utf-8",
     stdio: ["pipe", "pipe", "pipe"],
   });
@@ -62,7 +77,7 @@ async function main(): Promise<void> {
     // Run trader demo
     const sep = "════════════════════════════════════════════════════════════";
     console.log(sep);
-    console.log("DEMO #1: TRADER AGENT (Real-time Trading Simulation)");
+    console.log("DEMO #1: TRADER AGENT (TAMP Discovery + MCP Execution)");
     console.log(sep);
 
     const traderResult = runDemo("trader");
@@ -75,7 +90,7 @@ async function main(): Promise<void> {
 
     // Run security demo
     console.log(`\n${sep}`);
-    console.log("DEMO #2: SECURITY AGENT (Wallet Risk Assessment)");
+    console.log("DEMO #2: SECURITY AGENT (TAMP Discovery + MCP Execution)");
     console.log(sep);
 
     const securityResult = runDemo("security");

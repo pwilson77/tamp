@@ -36,6 +36,19 @@ flowchart LR
 
 **Trust layer:** TAMP adds a simple on-chain reputation primitive: **bonded stake in $TON** + optional **IdentityHub-linked verification** to reduce scams and spam.
 
+## Capability Index (v1)
+
+TAMP uses a capability bitmask. Each category maps to one bit position:
+
+| Category | Bit | Mask Value |
+| -------- | --: | ---------: |
+| Trader   |   4 |         16 |
+| Security |   5 |         32 |
+
+Combining categories uses bitwise OR (example: Trader + Security = `16 \| 32 = 48`).
+
+The shared map for SDK scripts is defined in [projects/tamp/sdk/src/capabilities.ts](sdk/src/capabilities.ts).
+
 ## Getting Started
 
 **Developers (register):**
@@ -89,6 +102,16 @@ MANIFEST_URL=http://localhost:8787/ton-agent.demo.json \
 CAPABILITIES=32 \
 npx @ton/blueprint run registerAgent --testnet --tonconnect
 ```
+
+For the dual-agent demo (Trader + Security), generate both payloads and sign with two wallets:
+
+```bash
+cd projects/tamp/sdk
+npm run demo:register:mock
+```
+
+- Sign **Trader** payload with **Wallet A**
+- Sign **Security** payload with **Wallet B**
 
 **Terminal C (run the mock AI agent runner):**
 
@@ -148,6 +171,8 @@ After installing, import from the SDK source entry used in this repo:
 
 ```ts
 import {
+  CAPABILITIES,
+  combineCapabilities,
   TampDiscoveryClient,
   buildRegisterAgentTonConnectTx,
 } from "tamp-sdk/src/sdk";
@@ -166,11 +191,14 @@ import { buildRegisterAgentTonConnectTx } from "tamp-sdk/src/sdk";
 const tx = buildRegisterAgentTonConnectTx({
   registryAddress: "EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS",
   manifestUrl: "https://your-domain/ton-agent.json",
-  capabilities: 32n,
+  capabilities: combineCapabilities(["trader", "security"]),
   valueNano: 60_000_000n,
 });
 
 // tonConnect.sendTransaction(tx)
+
+// single category example:
+const securityOnlyMask = CAPABILITIES.security; // 32n
 ```
 
 **Discover (agent → off-chain + on-chain reads):**
