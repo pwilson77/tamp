@@ -12,6 +12,17 @@ import {
 } from "@ton/core";
 import { TonClient } from "@ton/ton";
 
+export {
+  CAPABILITIES,
+  CAPABILITY_BITS,
+  CAPABILITY_KEYS,
+  combineCapabilities,
+  decodeCapabilities,
+  hasCapability,
+  parseCapabilityKeys,
+  type CapabilityKey,
+} from "./capabilities";
+
 export const TAMP_OPCODES = {
   // register_agent#a293495e manifestUrl:^string capabilities:int257
   RegisterAgent: 0xa293495e,

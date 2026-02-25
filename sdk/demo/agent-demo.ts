@@ -18,6 +18,14 @@ const loaderFrames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "�
 let loaderIndex = 0;
 
 async function showLoader(message: string, seconds = 2): Promise<void> {
+  const isInteractive = Boolean(process.stdout.isTTY && !process.env.CI);
+
+  if (!isInteractive) {
+    console.log(`🤖 [AI AGENT]: ${message}...`);
+    await new Promise((r) => setTimeout(r, seconds * 1000));
+    return;
+  }
+
   const frames = loaderFrames.length;
   const totalMs = seconds * 1000;
   const frameMs = totalMs / frames;
