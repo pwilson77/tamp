@@ -94,24 +94,30 @@ npm install
 npm run demo:mcp
 ```
 
-**Terminal B (register your demo agent on testnet, pointing at the local manifest URL):**
-
-```bash
-cd projects/tamp/contracts/tamp-blueprint
-MANIFEST_URL=http://localhost:8787/ton-agent.demo.json \
-CAPABILITIES=32 \
-npx @ton/blueprint run registerAgent --testnet --tonconnect
-```
-
-For the dual-agent demo (Trader + Security), generate both payloads and sign with two wallets:
+**Terminal B (run the demo against already-registered testnet agents):**
 
 ```bash
 cd projects/tamp/sdk
-npm run demo:register:mock
+REGISTRY_ADDRESS=EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS \
+TON_RPC_ENDPOINT=https://testnet.toncenter.com/api/v2/jsonRPC \
+npm run demo:both
+```
+
+The Trader and Security demo agents are already registered on testnet for this walkthrough.
+
+### Optional: Register your own agents
+
+If you want to register your own agents instead of using the pre-registered demo entries:
+
+```bash
+cd projects/tamp/sdk
+npm run demo:register:mock:tonconnect
 ```
 
 - Sign **Trader** payload with **Wallet A**
 - Sign **Security** payload with **Wallet B**
+
+Then re-run `npm run demo:both`.
 
 **Terminal C (run the mock AI agent runner):**
 
