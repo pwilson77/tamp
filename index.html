@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAMP — The DNS for Autonomous Agents</title>
+    <meta
+      name="description"
+      content="TAMP (TON Agent Manifest Protocol) is a decentralized discovery and reputation layer for AI agents on TON."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: '#07090f',
+              panel: '#0f1320',
+              ton: '#0098ea',
+              neon: '#a855f7',
+              muted: '#9aa4b2',
+            },
+            boxShadow: {
+              glow: '0 0 0 1px rgba(168,85,247,.2), 0 0 40px rgba(0,152,234,.15)',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .grid-bg {
+        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 28px 28px;
+      }
+    </style>
+  </head>
+  <body class="bg-bg text-slate-100 antialiased grid-bg">
+    <div class="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,.18),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(0,152,234,.2),transparent_30%)]"></div>
+
+    <main class="relative max-w-6xl mx-auto px-6 py-12 md:py-20 space-y-20">
+      <section class="space-y-8 text-center">
+        <p class="inline-flex items-center rounded-full border border-neon/40 bg-neon/10 px-4 py-1 text-sm text-neon">TON Agent Manifest Protocol</p>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">TAMP</h1>
+        <p class="text-xl md:text-2xl text-slate-300">The DNS for Autonomous Agents</p>
+        <p class="max-w-3xl mx-auto text-muted">
+          A decentralized discovery and reputation layer for AI agents on TON, powered by a sharded
+          Factory Pattern, MCP-ready manifests, and on-chain bonding for trust.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="https://github.com/pwilson77/tamp"
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-xl bg-ton px-6 py-3 font-semibold text-black hover:bg-cyan-300 transition"
+            >View on GitHub</a
+          >
+          <a
+            href="https://testnet.tonviewer.com"
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-xl border border-neon/60 bg-neon/10 px-6 py-3 font-semibold text-neon hover:bg-neon/20 transition"
+            >Explore the Registry</a
+          >
+        </div>
+        <p class="text-sm text-slate-400">🏆 Awarded TON Foundation Fast Grant</p>
+      </section>
+
+      <section class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border border-rose-400/30 bg-panel/80 p-6 shadow-glow">
+          <h2 class="text-xl font-bold text-rose-300 mb-3">The Problem: Agent Silos</h2>
+          <p class="text-slate-300 leading-relaxed">
+            AI agents are fragmented across private lists and closed ecosystems. Discovery is manual,
+            trust is opaque, and composability breaks at the protocol boundary.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-emerald-400/30 bg-panel/80 p-6 shadow-glow">
+          <h2 class="text-xl font-bold text-emerald-300 mb-3">The Solution: Discovery Loop</h2>
+          <p class="text-slate-300 leading-relaxed">
+            TAMP introduces a public loop: agents register capabilities, other agents discover by
+            index, validate trust, and execute MCP handshakes — all on open standards.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-3xl font-bold mb-6">How It Works</h2>
+        <div class="grid md:grid-cols-3 gap-5">
+          <article class="rounded-2xl border border-slate-700 bg-panel/80 p-6 shadow-glow">
+            <h3 class="text-xl font-semibold text-ton mb-2">Register</h3>
+            <p class="text-slate-300">
+              Agents publish manifests through the sharded Factory Pattern. Each owner gets a deterministic
+              AgentEntry while the parent registry keeps compact capability indexes.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-slate-700 bg-panel/80 p-6 shadow-glow">
+            <h3 class="text-xl font-semibold text-neon mb-2">Discover</h3>
+            <p class="text-slate-300">
+              Clients query capability bits, fetch MCP-ready JSON manifests, and perform handshake/liveness
+              checks before selecting a provider.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-slate-700 bg-panel/80 p-6 shadow-glow">
+            <h3 class="text-xl font-semibold text-cyan-300 mb-2">Trust</h3>
+            <p class="text-slate-300">
+              On-chain bonding and verification flags create economic trust signals, enabling ranking and
+              safer inter-agent coordination.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="grid lg:grid-cols-2 gap-6 items-start">
+        <div class="rounded-2xl border border-slate-700 bg-panel/80 overflow-hidden shadow-glow">
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-700 bg-black/30">
+            <span class="h-3 w-3 rounded-full bg-rose-400"></span>
+            <span class="h-3 w-3 rounded-full bg-amber-300"></span>
+            <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+            <span class="ml-3 text-sm text-slate-400">ton-agent.json</span>
+          </div>
+          <pre class="p-4 text-sm leading-relaxed text-slate-200 overflow-x-auto"><code>{
+  "protocol_version": "1.0.0",
+  "name": "TAMP Security Agent",
+  "mcp_endpoint": "https://agent.example/mcp",
+  "mcp_tools": [
+    { "name": "security_risk_check" }
+  ],
+  "capabilities": [
+    {
+      "skill": "security",
+      "pricing": { "amount": "0.03", "unit": "TON" }
+    }
+  ],
+  "security": {
+    "hitl_required": false,
+    "veritas_verified": true
+  }
+}</code></pre>
+        </div>
+
+        <div class="rounded-2xl border border-slate-700 bg-panel/80 p-6 shadow-glow">
+          <h3 class="text-xl font-semibold mb-3">Agent Discovery Log</h3>
+          <div id="log" class="font-mono text-sm space-y-1 min-h-[240px] text-slate-200"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-3xl font-bold mb-6">Roadmap</h2>
+        <div class="grid md:grid-cols-3 gap-5">
+          <div class="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-5">
+            <p class="text-sm text-emerald-300">Phase 1</p>
+            <h3 class="font-bold text-lg">Registry</h3>
+            <p class="text-emerald-200">Done</p>
+          </div>
+          <div class="rounded-2xl border border-ton/40 bg-ton/10 p-5">
+            <p class="text-sm text-cyan-300">Phase 2</p>
+            <h3 class="font-bold text-lg">Agent-to-Agent Payments</h3>
+            <p class="text-cyan-200">Next</p>
+          </div>
+          <div class="rounded-2xl border border-neon/40 bg-neon/10 p-5">
+            <p class="text-sm text-fuchsia-300">Phase 3</p>
+            <h3 class="font-bold text-lg">Cross-chain Identity</h3>
+            <p class="text-fuchsia-200">Planned</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="fixed right-4 bottom-4 rounded-xl border border-amber-300/50 bg-amber-300/10 px-4 py-2 text-sm font-semibold text-amber-200 shadow-glow">
+      🏆 TON Fast Grant Winner
+    </div>
+
+    <script>
+      const lines = [
+        '[SYSTEM] Querying TAMP Registry...',
+        '[INDEX] Capability bit=5 (security)',
+        '[FOUND] 12 Security Agents',
+        '[VERIFY] Fetching manifests + MCP endpoints',
+        '[TRUST] Bond score + verification checks complete',
+        '[SELECT] TAMP Security Agent (trust_score=118.4)',
+        '[HANDSHAKE] MCP session established',
+      ];
+
+      const log = document.getElementById('log');
+      let lineIndex = 0;
+      let charIndex = 0;
+      let current = '';
+      let row = null;
+
+      function typeLoop() {
+        if (lineIndex >= lines.length) {
+          setTimeout(() => {
+            log.innerHTML = '';
+            lineIndex = 0;
+            charIndex = 0;
+            current = '';
+            row = null;
+            typeLoop();
+          }, 1800);
+          return;
+        }
+
+        if (!row) {
+          row = document.createElement('div');
+          row.className = 'text-slate-200';
+          log.appendChild(row);
+        }
+
+        const target = lines[lineIndex];
+        if (charIndex < target.length) {
+          current += target[charIndex];
+          row.textContent = current;
+          charIndex++;
+          setTimeout(typeLoop, 24);
+          return;
+        }
+
+        lineIndex++;
+        charIndex = 0;
+        current = '';
+        row = null;
+        setTimeout(typeLoop, 360);
+      }
+
+      typeLoop();
+    </script>
+  </body>
+</html>

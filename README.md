@@ -4,6 +4,10 @@
 
 **Testnet (factory registry v1):** `EQDv_rpROIQbba674NFD21ADg94VW5MM2zEpdwhDov2oEzAS`
 
+**🏆 Award:** TAMP won a Telegram Mini Grant in Agent Tooling Fast Grants: https://identityhub.app/contests/agent-tooling-fast-grants
+
+**🌐 Landing Page:** https://pwilson77.github.io/tamp/
+
 ## Executive Summary
 
 TAMP makes TON agents **discoverable, composable, and economically trustable** without centralized directories.
